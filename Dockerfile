@@ -15,7 +15,5 @@ EXPOSE 5500
 
 # 환경변수 (런타임에 docker-compose나 -e 플래그로 오버라이드)
 ENV ORACLE_PASSWORD=__CHANGE_ME__
-ENV APP_USER_PASSWORD=__CHANGE_ME__
-ENV ADMIN_USER_PASSWORD=__CHANGE_ME__
 
 # gvenzl 이미지의 기본 entrypoint 유지
