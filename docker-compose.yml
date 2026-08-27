@@ -1,0 +1,23 @@
+services:
+  oracle-db:
+    build: .
+    container_name: sesac-oracle-db
+    ports:
+      - "1521:1521"    # Oracle Listener
+      - "5500:5500"    # EM Express (웹 관리 UI)
+    environment:
+      # Oracle SYS/SYSTEM 비밀번호
+      ORACLE_PASSWORD: ${ORACLE_PASSWORD:-ChangeMe123}
+      # App/Admin 계정 비밀번호 (init SQL에서 사용)
+      APP_USER_PASSWORD: ${APP_USER_PASSWORD:-AppPass123}
+      ADMIN_USER_PASSWORD: ${ADMIN_USER_PASSWORD:-AdminPass123}
+    volumes:
+      # 데이터 지속성 볼륨
+      - /mnt/db_data:/opt/oracle/oradata
+    healthcheck:
+      test: ["CMD", "sqlplus", "-L", "system/${ORACLE_PASSWORD:-ChangeMe123}@localhost/XE", "-S", "-c", "EXIT WHEN SQL.SQLCODE != 0; SELECT 1 FROM DUAL;"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
+    restart: unless-stopped

@@ -1,0 +1,38 @@
+-- ============================================================
+-- 01_create_schemas.sql.template
+-- 스키마(=Oracle 사용자) 및 DB 계정 생성용 템플릿
+-- 사용법: 이 파일을 01_create_schemas.sql로 복사 후
+--         __PLACEHOLDER__를 실제 비밀번호로 교체
+-- ⚠️ 01_create_schemas.sql는 .gitignore에 추가하여 Git에 올리지 말 것!
+-- ============================================================
+
+-- -----------------------------------------------------------
+-- 스키마 1: SPEECHAPP_USER (사용자 도메인)
+-- -----------------------------------------------------------
+CREATE USER speechapp_user IDENTIFIED BY __USER_SCHEMA_PASSWORD__
+    DEFAULT TABLESPACE USERS
+    QUOTA UNLIMITED ON USERS;
+
+-- -----------------------------------------------------------
+-- 스키마 2: SPEECHAPP_CONTENT (콘텐츠 도메인)
+-- -----------------------------------------------------------
+CREATE USER speechapp_content IDENTIFIED BY __CONTENT_SCHEMA_PASSWORD__
+    DEFAULT TABLESPACE USERS
+    QUOTA UNLIMITED ON USERS;
+
+-- -----------------------------------------------------------
+-- 애플리케이션용 계정 (app user)
+-- SPEECHAPP_USER 스키마: 읽기/쓰기
+-- SPEECHAPP_CONTENT 스키마: 읽기 전용
+-- -----------------------------------------------------------
+CREATE USER speechapp_app IDENTIFIED BY __APP_USER_PASSWORD__
+    DEFAULT TABLESPACE USERS
+    QUOTA UNLIMITED ON USERS;
+
+-- -----------------------------------------------------------
+-- 관리자 계정 (admin user)
+-- 두 스키마 모두 읽기/쓰기
+-- -----------------------------------------------------------
+CREATE USER speechapp_admin IDENTIFIED BY __ADMIN_USER_PASSWORD__
+    DEFAULT TABLESPACE USERS
+    QUOTA UNLIMITED ON USERS;

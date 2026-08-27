@@ -1,0 +1,5 @@
+# 실제 비밀번호가 포함된 init SQL (template만 Git 추적)
+init/01_create_schemas.sql
+
+# 환경변수 파일
+.env
