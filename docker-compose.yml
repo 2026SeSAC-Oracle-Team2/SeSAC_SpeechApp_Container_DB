@@ -6,11 +6,9 @@ services:
       - "1521:1521"    # Oracle Listener
       - "5500:5500"    # EM Express (웹 관리 UI)
     environment:
-      # Oracle SYS/SYSTEM 비밀번호
+      # Oracle SYS/SYSTEM 비밀번호 (gvenzl 이미지에서 SYSTEM/SYS 계정 설정용)
+      # init SQL의 사용자 계정(speechapp_app, speechapp_admin)과는 무관
       ORACLE_PASSWORD: ${ORACLE_PASSWORD:-ChangeMe123}
-      # App/Admin 계정 비밀번호 (init SQL에서 사용)
-      APP_USER_PASSWORD: ${APP_USER_PASSWORD:-AppPass123}
-      ADMIN_USER_PASSWORD: ${ADMIN_USER_PASSWORD:-AdminPass123}
     volumes:
       # 데이터 지속성 볼륨
       - /mnt/db_data:/opt/oracle/oradata
