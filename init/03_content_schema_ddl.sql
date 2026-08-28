@@ -16,7 +16,7 @@ CREATE TABLE speechapp_content.image_resource (
     created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT chk_image_resource_problem_type
-        CHECK (problem_type IN ('DESCRIBE', 'GUESS'))
+        CHECK (problem_type IN ('DESCRIBE', 'CHOOSE'))
 );
 
 CREATE INDEX idx_image_resource_type ON speechapp_content.image_resource(problem_type);
