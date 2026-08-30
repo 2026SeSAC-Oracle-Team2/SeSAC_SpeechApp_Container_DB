@@ -116,13 +116,21 @@ email        VARCHAR2(255) NOT NULL UNIQUE,
 ## 5. 백엔드 세션 이관 사항 (TODO)
 
 > ⚠️ **Database 세션에서 확인한 사항.** 백엔드 세션에서 아래 작업 필요.
+> 🔧 **2026-08-28 상태: "DB 기반 로그인 구현" 작업으로 BE-DB-01~04 수정 진행 중 (feature/db-login 브랜치)**
 
-| ID | 작업 | 파일 | 설명 |
-|----|------|------|------|
-| **BE-DB-01** | `AppUser.kt` nullable 수정 | `entity/AppUser.kt` | `firebase_uid`, `email`을 `nullable = false` → `nullable = true`로 변경. 소셜 로그인 확장 시 이메일 미제공 플랫폼 대응. |
-| **BE-DB-02** | 소셜 확장 필드 추가 | `entity/AppUser.kt` | `social_provider` (VARCHAR2 20), `social_id` (VARCHAR2 255) 필드 추가. 현재 DDL에는 이미 포함됨. |
-| **BE-DB-03** | `@Table` 스키마 명시 | `entity/AppUser.kt`, `entity/UserProfile.kt` | Oracle 스키마 분리 대응: `@Table(name = "app_user", schema = "speechapp_user")` 추가 |
-| **BE-DB-04** | `application.yml` dev 프로필 수정 | `src/main/resources/application.yml` | `spring.datasource.url`을 H2 → Oracle XE로 변경. `speechapp_app` 계정 사용. |
+| ID | 작업 | 파일 | 설명 | 상태 |
+|----|------|------|------|------|
+| **BE-DB-01** | `AppUser.kt` nullable 수정 | `entity/AppUser.kt` | `firebase_uid`, `email`을 `nullable = false` → `nullable = true`로 변경. 소셜 로그인 확장 시 이메일 미제공 플랫폼 대응. | `[~]` 진행 중 |
+| **BE-DB-02** | 소셜 확장 필드 추가 | `entity/AppUser.kt` | `social_provider` (VARCHAR2 20), `social_id` (VARCHAR2 255) 필드 추가. 현재 DDL에는 이미 포함됨. | `[~]` 진행 중 |
+| **BE-DB-03** | `@Table` 스키마 명시 | `entity/AppUser.kt`, `entity/UserProfile.kt` | Oracle 스키마 분리 대응: `@Table(name = "app_user", schema = "speechapp_user")` 추가 | `[~]` 진행 중 |
+| **BE-DB-04** | `application.yml` dev 프로필 수정 | `src/main/resources/application.yml` | `spring.datasource.url`을 H2 → Oracle XE로 변경. `speechapp_app` 계정 사용. ojdbc11 의존성 활성화 포함 | `[~]` 진행 중 |
+
+### 추가 확정사항 (2026-08-28, 백엔드 세션)
+
+- `UserProfile.profile_image_url` → `profile_image_bucket_path`로 @Column 매핑 변경 (DDL 기준)
+- DB에는 Object Storage **key만** 저장 (예: `{userUUID}/profile.jpg`). 버킷명은 application.yml 설정값
+- 이미지 제공은 백엔드 프록시 스트리밍 API (`GET /api/v1/users/me/profile-image`) — 버킷 비공개 유지
+- OCI API Key 인증: `~/.oci/config` DEFAULT 프로필 사용. 2026-08-28 실서명 테스트로 GET/PUT/DELETE 권한 검증 완료 (namespace cn5brhz58dgr / region ap-seoul-1)
 
 ---
 
