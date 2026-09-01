@@ -3,6 +3,7 @@
 -- 스키마: SPEECHAPP_USER
 -- 테이블: CONTENT_TYPE, LEARNING_SESSION, TURN, TURN_IMAGE, VOICE_RECORD
 -- v1.9 (2026-09-01): P3-23 renamed SESSION → learning_session, added sequences
+-- v1.95 (2026-09-02): TURN 테이블에 score 컬럼 추가
 -- ============================================================
 
 ALTER SESSION SET CONTAINER = XEPDB1;
@@ -55,6 +56,7 @@ CREATE TABLE speechapp_user.turn (
     selected_value  VARCHAR2(255),
     answer_text     CLOB,
     hints_shown     NUMBER(1),
+    score           NUMBER(5,2),
     created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_turn_session_id
