@@ -39,6 +39,9 @@ CREATE TABLE speechapp_user.user_profile (
     user_id             NUMBER(19) NOT NULL UNIQUE,
     nickname            VARCHAR2(50),
     profile_image_bucket_path VARCHAR2(500),
+    likes               VARCHAR2(500),
+    sex                 VARCHAR2(10),
+    age                 NUMBER(3),
     created_at          TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at          TIMESTAMP,
 
